@@ -68,6 +68,9 @@ export const register = async (req, res) => {
     // Create new user
     const newUser = await User.create({ name, email, password }).select("-password");
 
+    //  Create empty cart for new user
+    await Cart.create({ userId: newUser._id });
+
     const token = newUser.generateToken(); // generate JWT token
 
     return res
