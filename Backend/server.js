@@ -4,6 +4,8 @@ import express from 'express';
 import connectDB from './config/db.js';
 import userRouter from './routes/user.routes.js';
 import coockieParser from 'cookie-parser';
+import adminRouter from './routes/admin.routes.js';
+import cors from 'cors';
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -12,13 +14,17 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(coockieParser());
+app.use(cors());
 
 // routes
 app.use('/api/users',userRouter);
-
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
+
+
+// admin routes
+app.use('/api/admin',adminRouter);
 
 // Connect to DB first, then start server
 const startServer = async () => {
